@@ -110,7 +110,7 @@ resource "aws_instance" "web" {
   # Lookup the correct AMI based on the region
   # we specified
   ami = "${lookup(var.aws_amis, var.aws_region)}"
-
+  subnet_id = ["${aws_subnet.main.0.id}"]
   # The name of our SSH keypair you've created and downloaded
   # from the AWS console.
   #
@@ -134,7 +134,7 @@ resource "aws_instance" "web" {
 # Our default security group to access
 # the instances over SSH and HTTP
 resource "aws_security_group" "default" {
-  name        = "instance_sg"
+  name        = "SG for instance"
   description = "Used in the terraform"
   vpc_id = "${aws_vpc.main.id}"
 
@@ -167,7 +167,7 @@ resource "aws_security_group" "default" {
 # the ELB over HTTP
 resource "aws_security_group" "elb" {
   vpc_id = "${aws_vpc.main.id}"
-  name   = "vladgordey-ecs-lbsg"
+  name   = "SG for LB"
   description = "Used in the terraform"
 
   # HTTP access from anywhere
