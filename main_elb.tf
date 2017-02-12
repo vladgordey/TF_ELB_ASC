@@ -42,27 +42,6 @@ resource "aws_route_table_association" "a" {
   route_table_id = "${aws_route_table.r.id}"
 }
 
-
-###=================================================== ASG ========================================###
-
-resource "aws_autoscaling_group" "app" {
-  name                 = "vlad-gordey-asg"
-  vpc_zone_identifier  = ["${aws_subnet.main.*.id}"]
-  min_size             = "${var.asg_min}"
-  max_size             = "${var.asg_max}"
-  desired_capacity     = "${var.asg_desired}"
-  launch_configuration = "${aws_launch_configuration.gordey_lc.name}"
-}
-
-resource "aws_launch_configuration" "gordey_lc" {
-  name          = "gordey-lc"
-  image_id      = "ami-5b31fd34"
-  instance_type = "${var.instance_type}"
-
-  # Security group
-  security_groups = ["${aws_security_group.elb.id}"]
-}
-
 ###=================================================== ELB ========================================###
 
 resource "aws_elb" "web" {
@@ -89,7 +68,7 @@ resource "aws_elb" "web" {
   }
 
   # The instance is registered automatically
-  instances = ["${aws_instance.web.id}"]
+ ##################### instances = ["${aws_instance.web.id}"]
 
   cross_zone_load_balancing   = true
   idle_timeout                = 400
@@ -119,7 +98,7 @@ resource "aws_instance" "web" {
   key_name = "${var.key_name}"
 
   # Our Security group to allow HTTP and SSH access
-###############################  security_groups = ["${aws_security_group.default.name}"]
+#########################  security_groups = ["${aws_security_group.default.name}"]
   user_data = "${file("userdata_elb.sh")}"
 
   #Instance tags
@@ -127,6 +106,29 @@ resource "aws_instance" "web" {
     Name = "Vgordey_elb"
   }
 }
+
+
+###=================================================== ASG ========================================###
+
+resource "aws_autoscaling_group" "app" {
+  name                 = "vlad-gordey-asg"
+  vpc_zone_identifier  = ["${aws_subnet.main.*.id}"]
+  min_size             = "${var.asg_min}"
+  max_size             = "${var.asg_max}"
+  desired_capacity     = "${var.asg_desired}"
+  launch_configuration = "${aws_launch_configuration.gordey_lc.name}"
+  load_balancers       = ["${aws_elb.web.id}"]  
+}
+
+resource "aws_launch_configuration" "gordey_lc" {
+  name          = "gordey-lc"
+  image_id      = "ami-5b31fd34"
+  instance_type = "${var.instance_type}"
+
+  # Security group
+  security_groups = ["${aws_security_group.elb.id}"]
+}
+
 
 
 ###=================================================== Secirity Groups ========================================###
