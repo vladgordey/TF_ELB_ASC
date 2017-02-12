@@ -68,8 +68,9 @@ resource "aws_elb" "web" {
   name = "vgordey-elb"
   vpc_id = "${aws_vpc.main.id}"
   # The same availability zone as our instance
-  availability_zones = ["${aws_instance.web.availability_zone}"]
+  availability_zones = ["${aws_instance.web.*.availability_zone}"]
   security_groups    = ["${aws_security_group.elb.id}"]
+  subnets         = ["${aws_subnet.main.*.id}"]
 
   listener {
     instance_port     = 80
