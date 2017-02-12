@@ -2,7 +2,7 @@ variable "key_name" {
   default     = "Linux_EC2_Terraform"
   description = "Name of the SSH keypair to use in AWS."
 }
-
+variable "vpc_cidr" {default = "10.10.0.0/16"}
 variable "aws_region" {
   description = "AWS region to launch servers."
   default     = "eu-central-1"
