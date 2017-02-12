@@ -29,12 +29,12 @@ variable "instance_type" {
 }
 variable "asg_min" {
   description = "Min numbers of servers in ASG"
-  default     = "1"
+  default     = "2"
 }
 
 variable "asg_max" {
   description = "Max numbers of servers in ASG"
-  default     = "2"
+  default     = "4"
 }
 
 variable "asg_desired" {
