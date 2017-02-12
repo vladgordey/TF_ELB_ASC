@@ -50,7 +50,7 @@ resource "aws_autoscaling_group" "app" {
   min_size             = "${var.asg_min}"
   max_size             = "${var.asg_max}"
   desired_capacity     = "${var.asg_desired}"
-  launch_configuration = "${aws_launch_configuration.app.name}"
+  launch_configuration = "${aws_launch_configuration.gordey_lc.name}"
 }
 
 resource "aws_launch_configuration" "gordey_lc" {
