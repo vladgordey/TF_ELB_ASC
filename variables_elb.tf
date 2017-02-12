@@ -1,4 +1,5 @@
 variable "key_name" {
+  default     = "Linux_EC2_Terraform"
   description = "Name of the SSH keypair to use in AWS."
 }
 
