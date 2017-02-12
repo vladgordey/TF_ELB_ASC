@@ -110,7 +110,7 @@ resource "aws_instance" "web" {
   # Lookup the correct AMI based on the region
   # we specified
   ami = "${lookup(var.aws_amis, var.aws_region)}"
-  subnet_id = ["${aws_subnet.main.0.id}"]
+  subnet_id = "${aws_subnet.main.0.id}"
   # The name of our SSH keypair you've created and downloaded
   # from the AWS console.
   #
