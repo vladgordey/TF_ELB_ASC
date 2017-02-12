@@ -66,7 +66,7 @@ resource "aws_launch_configuration" "gordey_lc" {
 
 resource "aws_elb" "web" {
   name = "vgordey-elb"
-
+  vpc_id = "${aws_vpc.main.id}"
   # The same availability zone as our instance
   availability_zones = ["${aws_instance.web.availability_zone}"]
   security_groups    = ["${aws_security_group.elb.id}"]
