@@ -41,3 +41,8 @@ variable "asg_desired" {
   description = "Desired numbers of servers in ASG"
   default     = "1"
 }
+
+variable "map_public_ip"{
+  description = "Map public IP setting - subnet feature"
+  default     = true
+  }
