@@ -9,7 +9,8 @@ data "aws_availability_zones" "available" {}
 ###=================================================== VPC ========================================###
 # New VPC for env
 resource "aws_vpc" "main" {
-  cidr_block = "10.10.0.0/16"
+##  "10.10.0.0/16"
+  cidr_block ="${var.vpc_cidr}" 
   enable_dns_hostnames = true
   tags {
     Name = "${var.short_name}-vpc"
@@ -70,7 +71,7 @@ resource "aws_elb" "web" {
   # The same availability zone as our instance
   availability_zones = ["${aws_instance.web.*.availability_zone}"]
   security_groups    = ["${aws_security_group.elb.id}"]
-  subnets         = ["${aws_subnet.main.*.id}"]
+  subnets         = ["${aws_subnet.main.id}"]
 
   listener {
     instance_port     = 80
