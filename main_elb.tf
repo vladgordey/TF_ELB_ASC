@@ -50,7 +50,7 @@ resource "aws_autoscaling_group" "app" {
   min_size             = "${var.asg_min}"
   max_size             = "${var.asg_max}"
   desired_capacity     = "${var.asg_desired}"
-  launch_configuration = "${aws_launch_configuration.gordey_lc.name}"
+  launch_configuration = "${aws_launch_configuration.app.name}"
 }
 
 resource "aws_launch_configuration" "gordey_lc" {
@@ -103,7 +103,7 @@ resource "aws_lb_cookie_stickiness_policy" "default" {
 }
 
 resource "aws_instance" "web" {
-  instance_type = "t2.micro"
+  instance_type = "${var.instance_type}"
 
   # Lookup the correct AMI based on the region
   # we specified
@@ -197,7 +197,12 @@ resource "aws_security_group" "elb" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+
 }
+
+
+
+
 
 
 
