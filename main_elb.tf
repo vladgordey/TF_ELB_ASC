@@ -120,7 +120,6 @@ resource "aws_instance" "web" {
 
   # Our Security group to allow HTTP and SSH access
   security_groups = ["${aws_security_group.default.name}"]
-  subnet_id = "${aws_subnet.main.0.id}" 
   user_data = "${file("userdata_elb.sh")}"
 
   #Instance tags
@@ -137,6 +136,7 @@ resource "aws_instance" "web" {
 resource "aws_security_group" "default" {
   name        = "instance_sg"
   description = "Used in the terraform"
+  vpc_id = "${aws_vpc.main.id}"
 
   # SSH access from anywhere
   ingress {
