@@ -47,7 +47,7 @@ resource "aws_route_table_association" "a" {
 
 resource "aws_elb" "web" {
   
-  name = "vgordey-elb"
+  name = "${var.short_name}-elb"
   # The same availability zone as our instance
 ##  availability_zones = ["${aws_instance.web.*.availability_zone}"]
   security_groups    = ["${aws_security_group.elb.id}"]
